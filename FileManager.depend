@@ -1,0 +1,32 @@
+# depslib dependency file v1.0
+1560880726 source:e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\register.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"register.h"
+
+1560879289 e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\register.h
+
+1560963600 source:e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\main.c
+	<stdio.h>
+	<stdlib.h>
+	"register.h"
+	"file.h"
+
+1560963638 source:e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\file.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"file.h"
+
+1560963958 e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\file.h
+	"register.h"
+
+1560969209 source:e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\varsizereg.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"varSizeReg.h"
+
+1560969195 e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\varsizereg.h
+
