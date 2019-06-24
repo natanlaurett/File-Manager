@@ -124,7 +124,6 @@ void printRegisters(char fileName[], avArray avaliable){
 }
 
 int isAvaliable(int number, avArray vec){
-    printAvaliable(vec);
     for (int i = 0; i < vec.arrSize; i++){
         if (vec.pos[i] == number)
             return i;
@@ -167,7 +166,9 @@ void printAvaliable (avArray vec){
 }
 
 //*********************************************************************************************************
-AvList createEmpty (int bytes){
+AvList createEmpty (char filename[], int bytes){
+    FILE* file = createWB(filename);
+    fclose(file);
     AvList list;
     createList(&list);
     list.fileSize = bytes;
@@ -176,28 +177,156 @@ AvList createEmpty (int bytes){
     cell.position = 0;
     cell.sizeInBytes = bytes;
     addCell(&list, cell);
+    printf("\nEmpty file with %d bytes created.", bytes);
     return list;
 }
-void putVRegister (char fileName[], AvList* list,Cell cell, char type){
-    AvCell avCell= removeBestFit(list, cell);
+void putTFR (char fileName[], AvList* list, Tfr reg){
+    Tfr temp = reg;
+    temp.type = 1;
+    temp.active = 1;
+    cellPointer avCell;
+    avCell = removeBestFit(list, sizeof(Tsr));
+    printf("\n\n%d bytes avaliable in position %d.", avCell -> sizeInBytes, avCell -> position);
     if (avCell){
-        cell.posNext = avCell.position + cell.sizeInBytes;
-        cell.sizeInBytes = sizeof(cell);
-
         FILE* file = createARB(fileName);
-        fseek(file,avCell.position,SEEK_SET);
-        fwrite(&cell, sizeof(cell), 1, file);
+        fseek(file, avCell -> position, SEEK_SET);
+        fwrite(&temp, sizeof(Tfr), 1, file);
         fclose(file);
+        printf("\nThe following register were added to the file: type: %d. Id: %d. Name: %s.", reg.type, reg.id, reg.name);
 
         AvCell leftOver;
-        int remainSize = avCell.sizeInBytes - cell.sizeInBytes;
-        int position = avCell.position + cell.sizeInBytes;
-
-        createCell(&leftOver,position,remainSize);
-        addCell(list,leftOver);
+        int remainSize = avCell -> sizeInBytes - sizeof(Tfr);
+        int position = avCell -> position + sizeof(Tfr);
+        if (remainSize > 0){
+            createCell(&leftOver,position,remainSize);
+            printf("\nAdding space left in the list...");
+            addCell(list,leftOver);
+        }
     }else
         printf("\nThere is no space in the file.");
 }
-void removeVRegister(char fileName[],AVList* list, Cell cell){
 
+void putTSR (char fileName[], AvList* list, Tsr reg){
+    Tsr temp = reg;
+    temp.type = 2;
+    temp.active = 1;
+    cellPointer avCell;
+    avCell = removeBestFit(list, sizeof(Tsr));
+    printf("\n\n%d bytes avaliable in position %d.", avCell -> sizeInBytes, avCell -> position);
+    if (avCell){
+        FILE* file = createARB(fileName);
+        fseek(file, avCell -> position, SEEK_SET);
+        fwrite(&temp, sizeof(Tsr), 1, file);
+        fclose(file);
+        printf("\nThe following register were added to the file: type: %d. Id: %d. Value: %.2f.", reg.type, reg.id, reg.value);
+
+        AvCell leftOver;
+        int remainSize = avCell -> sizeInBytes - sizeof(Tsr);
+        int position = avCell -> position + sizeof(Tsr);
+        if (remainSize > 0){
+            createCell(&leftOver,position,remainSize);
+            printf("\nAdding space left in the list...");
+            addCell(list,leftOver);
+        }
+    }else
+        printf("\nThere is no space in the file.");
+}
+
+void removeVRegister(char fileName[],AvList* list, int id, int type){
+    FILE* file;
+    file = createARB(fileName);
+    int currId = id - 1;
+    int currType;
+    fseek(file, 0, SEEK_SET);
+    fread(&currType, sizeof(int), 1, file);
+    int currPosition = 0;
+
+    while (!feof(file) && currId != id){
+        fseek(file,currPosition,SEEK_SET);
+        if (currType == 1){
+            Tfr reg;
+            fread(&reg, sizeof(Tfr), 1, file);
+            currPosition += sizeof(Tfr);
+            fseek(file,currPosition,SEEK_SET);
+            fread(&currType, sizeof(int), 1, file);
+            currId = reg.id;
+        }else if (currType == 2){
+            Tsr reg;
+            fread(&reg, sizeof(Tsr), 1, file);
+            currPosition += sizeof(Tsr);
+            fseek(file,currPosition,SEEK_SET);
+            fread(&currType, sizeof(int), 1, file);
+            currId = reg.id;
+        }else{
+            printf ("\nInvalid data type encountered.[2]\n");
+            return;
+        }
+    }
+    if (feof(file)){
+        printf("The register doesn't exist in the file.\n");
+        return;
+    }
+    fclose(file);
+
+    AvCell cell;
+    file = createARB(fileName);
+    if (type == 1 ){
+        cell.sizeInBytes = sizeof(Tfr);
+        cell.position = currPosition - sizeof(Tfr);
+        fseek(file, cell.position,SEEK_SET);
+        Tfr reg;
+        fread(&reg,sizeof(Tfr),1,file);
+        reg.active = 0;
+        fseek(file, cell.position,SEEK_SET);
+        fwrite(&reg,sizeof(Tfr),1,file);
+    }
+    else{
+        cell.sizeInBytes = sizeof(Tsr);
+        cell.position = currPosition - sizeof(Tsr);
+        fseek(file, cell.position,SEEK_SET);
+        Tsr reg;
+        fread(&reg,sizeof(Tsr),1,file);
+        reg.active = 0;
+        fseek(file, cell.position,SEEK_SET);
+        fwrite(&reg,sizeof(Tsr),1,file);
+    }
+    fclose(file);
+    printf("\n\nRegister of id %d removed.", id);
+    if (cell.sizeInBytes > 0)
+        addCell(list, cell);
+    return;
+}
+
+void printVRegisters(char fileName[]){
+    printf("\n\n****************************PRINTING VARIABLE SIZE REGISTERS*****************************\n");
+    FILE* file;
+    file = createARB(fileName);
+    int currType;
+    int currPosition = 0;
+    fseek(file,0,SEEK_SET);
+    fread(&currType, sizeof(int), 1, file);
+    while (!feof(file)){
+        fseek(file,currPosition,SEEK_SET);
+        if (currType == 1){
+            Tfr reg;
+            fread(&reg, sizeof(Tfr), 1, file);
+            currPosition += sizeof(Tfr);
+            fseek(file,currPosition,SEEK_SET);
+            fread(&currType, sizeof(int), 1, file);
+            if (reg.active)
+                printTfr(reg);
+        }else if (currType == 2){
+            Tsr reg;
+            fread(&reg, sizeof(Tsr), 1, file);
+            currPosition += sizeof(Tsr);
+            fseek(file,currPosition,SEEK_SET);
+            fread(&currType, sizeof(int), 1, file);
+            if (reg.active)
+                printTsr(reg);
+        }else{
+            printf ("\nInvalid data type encountered.[1]\n");
+            return;
+        }
+    }
+    printf("\n*****************************************FINISHED****************************************");
 }

@@ -2,23 +2,18 @@
 #define VARSIZEREG_H_INCLUDED
 
 typedef struct {
-    void* ptr;
-    int sizeInBytes;
-    int posNext;
-}Cell;
-
-typedef struct {
+    int type;
     int id;
     char name[15];
+    int active;
 }Tfr;
 
 typedef struct {
+    int type;
     int id;
     float value;
+    int active;
 }Tsr;
-
-Cell initializeTfr(Tfr*);
-Cell initializeTsr(Tsr*);
 
 void printTfr(Tfr);
 void printTsr(Tsr);

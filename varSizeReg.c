@@ -3,22 +3,6 @@
 #include <string.h>
 #include "varSizeReg.h"
 
-Cell initializeTfr(Tfr* reg){
-    Cell cel;
-    cel.ptr = &reg;
-    cel.sizeInBytes = sizeof(reg);
-    cel.posNext = -1;
-    return cel;
-}
-
-Cell initializeTsr(Tsr* reg){
-    Cell cel;
-    cel.ptr = reg;
-    cel.sizeInBytes = sizeof(reg);
-    cel.posNext = -1;
-    return cel;
-}
-
 void printTfr(Tfr reg){
     printf("\nRegister Type 1. Id: %d. Name: %s", reg.id, reg.name);
 }

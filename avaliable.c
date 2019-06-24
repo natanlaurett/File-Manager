@@ -10,33 +10,39 @@ void createCell (AvCell* cell, int position, int bytes){
 }
 
 void createList (AvList* list){
-    list -> listSize = 0;
+    list -> fileSize = 0;
     list -> first = (AvCell*) malloc(sizeof(AvCell));
     list -> last = list -> first;
+
+    list -> first -> sizeInBytes = 0;
+    list -> first -> position = 0;
+    list -> first -> next = NULL;
 }
 void addCell (AvList* list, AvCell cell){
     AvCell* aux = (AvCell*) malloc(sizeof(AvCell));
     aux -> position = cell.position;
     aux -> sizeInBytes = cell.sizeInBytes;
     aux -> next = NULL;
-
     AvCell* curr = list -> first;
-    while (aux -> next -> sizeInBytes < curr -> sizeInBytes && curr -> next!= NULL)
-        curr = curr -> next;
 
+    while ( curr -> next != NULL && aux -> sizeInBytes > curr -> next-> sizeInBytes){
+        curr = curr -> next;
+    }
     if (curr -> next != NULL){
         AvCell* temp = curr -> next;
         curr -> next = aux;
         aux -> next = temp;
     }else
         curr -> next = aux;
+
+    printf("\nAvaliable cell added. Position: %d. Size: %d", aux -> position, aux -> sizeInBytes);
 }
-cellPointer removeFirstFit(AvList* list, Cell cell){
+cellPointer removeFirstFit(AvList* list, int size){
     AvCell* aux = list -> first;
-    while (aux -> next -> sizeInBytes < cell.sizeInBytes && aux -> next != NULL){
+    while (aux -> next -> sizeInBytes < size && aux -> next != NULL){
         aux = aux -> next;
     }
-    if (aux -> next -> sizeInBytes < cell.sizeInBytes){
+    if (aux -> next -> sizeInBytes < size){
         return NULL;
     }else{
         AvCell* temp = aux -> next;
@@ -44,14 +50,14 @@ cellPointer removeFirstFit(AvList* list, Cell cell){
         return temp;
     }
 }
-cellPointer removeBestFit(AvList* list, Cell cell){
-    return removeFirstFit(list,cell);
+cellPointer removeBestFit(AvList* list, int size){
+    return removeFirstFit(list,size);
 }
-cellPointer removeWorstFit(AvList* list, Cell cell){
+cellPointer removeWorstFit(AvList* list, int size){
     AvCell* aux = list -> first;
     while (aux -> next != NULL){
         if (aux -> next -> next == NULL){
-         if (aux -> next -> sizeInBytes < cell.sizeInBytes){
+         if (aux -> next -> sizeInBytes < size){
                 return NULL;
             }else{
                 AvCell* temp = aux -> next;
@@ -65,9 +71,10 @@ cellPointer removeWorstFit(AvList* list, Cell cell){
 }
 void printAvList(AvList list){
     AvCell* aux = list.first;
-    printf("\n******************PRINTING FREE SPACES IN THE FILE******************");
-    while (aux -> next != NULL){
+    printf("\n\n******************PRINTING FREE SPACES IN THE FILE******************");
+    while (aux != NULL){
         printf("\nFree space in position %d, of %d bytes.", aux->position, aux->sizeInBytes);
+        aux = aux -> next;
     }
     printf("\n***************************PRINT FINISHED***************************");
 }

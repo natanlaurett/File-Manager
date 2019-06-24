@@ -31,7 +31,10 @@ void removeAvaliable(int, avArray*);
 void printAvaliable (avArray);
 
 // ************************DIFERENT SIZE REGISTERS************************
-AvList createEmpty (int);
-void putVRegister (char[], AvList*,Cell, char);
-void removeVRegister(char[],AVList*, Cell, int);
+AvList createEmpty (char[],int);
+void putTFR (char[], AvList*,Tfr);
+void putTSR (char[], AvList*,Tsr);
+void removeVRegister(char[],AvList*, int, int);
+void printVRegisters(char[]);
 #endif // FILE_H_INCLUDED
+

@@ -22,9 +22,9 @@ typedef struct {
 void createCell (AvCell*, int, int);
 void createList (AvList*);
 void addCell (AvList*, AvCell);
-AvCell* removeFirstFit(AvList*, Cell);
-AvCell* removeBestFit(AvList*, Cell);
-AvCell* removeWorstFit(AvList*, Cell);
+AvCell* removeFirstFit(AvList*, int);
+AvCell* removeBestFit(AvList*, int);
+AvCell* removeWorstFit(AvList*, int);
 void printAvList(AvList);
 
 #endif // AVALIABLE_H_INCLUDED
