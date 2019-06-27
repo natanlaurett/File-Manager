@@ -7,7 +7,7 @@
 
 1560879289 e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\register.h
 
-1561381652 source:e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\main.c
+1561399094 source:e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -16,13 +16,13 @@
 	"varSizeReg.h"
 	"avaliable.h"
 
-1561390849 source:e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\file.c
+1561399044 source:e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\file.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"file.h"
 
-1561379190 e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\file.h
+1561398897 e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\file.h
 	"register.h"
 	"varSizeReg.h"
 	"avaliable.h"
@@ -33,12 +33,12 @@
 	<string.h>
 	"varSizeReg.h"
 
-1561390998 e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\varsizereg.h
+1561397748 e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\varsizereg.h
 
-1561340862 e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\avaliable.h
+1561398955 e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\avaliable.h
 	"varSizeReg.h"
 
-1561390924 source:e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\avaliable.c
+1561399025 source:e:\ufop\quarto período\algoritmos e estruturas de dados ii\atividade_1706\filemanager\avaliable.c
 	<stdio.h>
 	<stdlib.h>
 	"varSizeReg.h"

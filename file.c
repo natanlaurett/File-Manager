@@ -247,6 +247,9 @@ void removeVRegister(char fileName[],AvList* list, int id, int type){
             Tfr reg;
             fread(&reg, sizeof(Tfr), 1, file);
             currPosition += sizeof(Tfr);
+            int jump = containsPosition (*list, currPosition);
+            if (jump)
+                currPosition += jump;
             fseek(file,currPosition,SEEK_SET);
             fread(&currType, sizeof(int), 1, file);
             currId = reg.id;
@@ -254,6 +257,9 @@ void removeVRegister(char fileName[],AvList* list, int id, int type){
             Tsr reg;
             fread(&reg, sizeof(Tsr), 1, file);
             currPosition += sizeof(Tsr);
+            int jump = containsPosition (*list, currPosition);
+            if (jump)
+                currPosition += jump;
             fseek(file,currPosition,SEEK_SET);
             fread(&currType, sizeof(int), 1, file);
             currId = reg.id;
@@ -297,7 +303,7 @@ void removeVRegister(char fileName[],AvList* list, int id, int type){
     return;
 }
 
-void printVRegisters(char fileName[]){
+void printVRegisters(char fileName[], AvList list){
     printf("\n\n****************************PRINTING VARIABLE SIZE REGISTERS*****************************\n");
     FILE* file;
     file = createARB(fileName);
@@ -311,6 +317,9 @@ void printVRegisters(char fileName[]){
             Tfr reg;
             fread(&reg, sizeof(Tfr), 1, file);
             currPosition += sizeof(Tfr);
+            int jump = containsPosition (list, currPosition);
+            if (jump)
+                currPosition += jump;
             fseek(file,currPosition,SEEK_SET);
             fread(&currType, sizeof(int), 1, file);
             if (reg.active)
@@ -319,6 +328,9 @@ void printVRegisters(char fileName[]){
             Tsr reg;
             fread(&reg, sizeof(Tsr), 1, file);
             currPosition += sizeof(Tsr);
+            int jump = containsPosition (list, currPosition);
+            if (jump)
+                currPosition += jump;
             fseek(file,currPosition,SEEK_SET);
             fread(&currType, sizeof(int), 1, file);
             if (reg.active)

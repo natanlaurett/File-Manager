@@ -11,10 +11,6 @@ typedef struct {
     int fileSize;
 }avArray;
 
-typedef struct{
-    int fileSize;
-}InfoFile;
-
 FILE* createWB(char[]);
 FILE* createARB(char[]);
 // **************************SAME SIZE REGISTERS**************************
@@ -35,6 +31,6 @@ AvList createEmpty (char[],int);
 void putTFR (char[], AvList*,Tfr);
 void putTSR (char[], AvList*,Tsr);
 void removeVRegister(char[],AvList*, int, int);
-void printVRegisters(char[]);
+void printVRegisters(char[], AvList);
 #endif // FILE_H_INCLUDED
 

@@ -26,5 +26,6 @@ AvCell* removeFirstFit(AvList*, int);
 AvCell* removeBestFit(AvList*, int);
 AvCell* removeWorstFit(AvList*, int);
 void printAvList(AvList);
+int containsPosition (AvList, int);
 
 #endif // AVALIABLE_H_INCLUDED

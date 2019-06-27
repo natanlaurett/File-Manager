@@ -70,11 +70,21 @@ cellPointer removeWorstFit(AvList* list, int size){
    return NULL;
 }
 void printAvList(AvList list){
-    AvCell* aux = list.first;
+    AvCell* aux = list.first->next;
     printf("\n\n******************PRINTING FREE SPACES IN THE FILE******************");
     while (aux != NULL){
         printf("\nFree space in position %d, of %d bytes.", aux->position, aux->sizeInBytes);
         aux = aux -> next;
     }
     printf("\n***************************PRINT FINISHED***************************");
+}
+
+int containsPosition (AvList list, int pos){
+    cellPointer ptr = list.first -> next;
+    while (ptr != NULL){
+        if (ptr -> position == pos)
+            return ptr -> sizeInBytes;
+        ptr = ptr -> next;
+    }
+    return 0;
 }

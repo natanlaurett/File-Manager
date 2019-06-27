@@ -30,7 +30,6 @@ int main()
     printRegisters(fileName,vec);
     */
 
-    /*
     char fileNameVar[] = "binRegVar.bin";
 
     AvList list = createEmpty(fileNameVar, 200 * sizeof(Tfr));
@@ -59,17 +58,25 @@ int main()
 
     removeVRegister (fileNameVar, &list, 3, 1);
     printAvList(list);
-    printVRegisters(fileNameVar);
+    printVRegisters(fileNameVar, list);
 
+    secondReg.id = 5;
+    secondReg.value = 42.45;
+    putTSR(fileNameVar, &list, secondReg);
+    printAvList(list);
+
+
+    /*
     firstReg.id = 5;
     strcpy(firstReg.name, "Another one");
     putTFR(fileNameVar, &list, firstReg);
+    */
 
     firstReg.id = 6;
     strcpy(firstReg.name, "Bites the dust");
     putTFR(fileNameVar, &list, firstReg);
     printAvList(list);
-    printVRegisters(fileNameVar);
-    */
+    printVRegisters(fileNameVar, list);
+
     return 0;
 }
